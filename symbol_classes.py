@@ -11,9 +11,6 @@ math_const = ['pi', 'e', 'tau', 'inf', 'nan']
 
 
 class Symbol:
-    id = None
-    value = 0
-    lbp = 0
     token = None
     gen = None
 
@@ -24,11 +21,11 @@ class Symbol:
 
     """Base class for symbols in math expression"""
 
-    # def nud(self, token, gen):
-    #     raise SyntaxError("Syntax Error {}".format(self))
-    #
-    # def led(self):
-    #     raise SyntaxError("Syntax Error {}".format(self))
+    def nud(self):
+        raise SyntaxError("Syntax Error {}".format(self))
+
+    def led(self):
+        raise SyntaxError("Syntax Error {}".format(self))
 
     def __repr__(self):
         if self.id == "func" or self.id == "lit":
@@ -79,6 +76,7 @@ class InfixSymbol(Symbol):
 class PostfixInfixSymbol(InfixSymbol, PostfixSymbol):
     pass
 
+
 class Lit(Symbol):
     def nud(self):
         return self.value
@@ -95,3 +93,4 @@ class OpenBracket(Symbol):
         """ Check if we have close bracket, raise exception if no"""
         if oper_id and OpenBracket.token.id != oper_id:
             raise CalcError('unbalanced bracket')
+        Symbol.token = next(Symbol.gen)
