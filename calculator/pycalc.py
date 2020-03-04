@@ -1,5 +1,7 @@
-from const_and_paterns import token_pattern, symbol_table
-from symbol_classes import Lit, PostfixSymbol, Symbol
+import argparse
+
+from calculator.const_and_paterns import token_pattern, symbol_table
+from calculator.symbol_classes import Lit, PostfixSymbol, Symbol
 
 
 def tokenize(expression: str):
@@ -14,7 +16,7 @@ def tokenize(expression: str):
         if operator:
             op = symbol_table.get(operator)
             if not op:
-                raise SyntaxError("Syntax's error this operation is not supported")
+                raise SyntaxError("Error: this operation is not supported")
             yield op
     yield symbol_table['end']
 
@@ -24,17 +26,23 @@ def parse(inpt: str):
     Symbol.current_token = next(Symbol.all_tokens)
     return Symbol.current_token.count()
 
-# def read_consol():
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument('EXPRESSION', nargs='+', help="expression string to evaluate")
-    # name = 'EXPRESSION'
-    # args = parser.parse_args()
-    # inpt_lst_str = vars(args).get(name)
-    # fr = ' '.join(inpt_lst_str)
-    # return (fr)
+def read_consol():
+    parser = argparse.ArgumentParser('Comand-line calculator')
+    parser.add_argument('EXPRESSION', nargs='+', help="expression: string to evaluate")
+    name = 'EXPRESSION'
+    args = parser.parse_args()
+    inpt_lst_str = vars(args).get(name)
+    fr = ' '.join(inpt_lst_str)
+    return (fr)
+
+def print_output_to_console():
+    print(parse('1&2'))
 
 def main():
-    print(parse('cos(-2)+1'))
+    try:
+        print_output_to_console()
+    except SyntaxError as e:
+        print(e)
 
 
 if __name__ == "__main__":

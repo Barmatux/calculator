@@ -1,5 +1,5 @@
 from unittest import TestCase
-from pycalc import parse
+from calculator.pycalc import parse
 from math import cos, log10, pi, e, sin
 from symbol_classes import *
 
@@ -41,7 +41,7 @@ class TestParse(TestCase):
 
     def test_parse_unary_sub(self):
         res = parse(inpt='-2--+2')
-        self.assertEqual(res, -2--+2)
+        self.assertEqual(res, 0)
 
     def test_parse_priority_mul(self):
         res = parse(inpt='2+2*3')

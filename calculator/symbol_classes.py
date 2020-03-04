@@ -2,7 +2,7 @@ import math
 from numbers import Number
 from operator import *
 
-from error_classes import CalcError
+from calculator.error_classes import CalcError
 
 operator_table = {'+': add, '-': sub, '*': mul, '/': truediv, '%': mod, '//': floordiv, '^': pow, '<': lt, '<=': le,
                   '==': eq, '>': gt, '>=': ge, '!=': ne, 'abs': abs, 'round': round
@@ -109,5 +109,5 @@ class OpenBracket(Symbol):
     def check_trailing_bracket(self, oper_id=None):
         """ Check if we have close bracket, raise exception if no"""
         if oper_id and OpenBracket.current_token.id != oper_id:
-            raise CalcError('unbalanced bracket')
+            raise CalcError('Error: unbalanced bracket')
         Symbol.current_token = next(Symbol.all_tokens)

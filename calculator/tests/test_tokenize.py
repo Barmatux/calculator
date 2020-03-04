@@ -1,7 +1,5 @@
-from unittest import TestCase, mock
-from pycalc import tokenize
-from const_and_paterns import make_symbol
-from symbol_classes import Symbol, Lit
+from unittest import TestCase
+from calculator.pycalc import tokenize
 
 
 class TestTokenize(TestCase):
