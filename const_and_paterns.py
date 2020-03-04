@@ -17,10 +17,10 @@ symbol_table = {
     ">=": InfixSymbol(">=", 0, 5),
     "!=": InfixSymbol("!=", 0, 5),
     "==": InfixSymbol("==", 0, 5),
-    "lit": Lit("lit", 0, 0),
-    "end": Lit("end", 0, 0),
-    ",": Lit(",", 0, 0),
-    ")": Lit(")", 0, 0),
+    "lit": Lit("lit", 0),
+    "end": Lit("end", 0),
+    ",": Lit(",", 0),
+    ")": Lit(")", 0),
     "(": OpenBracket("(", 0, 150),
     "func": PostfixSymbol('func', 0, 200)
 }
