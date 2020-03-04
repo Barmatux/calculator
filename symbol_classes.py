@@ -60,10 +60,7 @@ class PostfixSymbol(Symbol):
                 raise CalcError('Error no such function')
             else:
                 return math_function(self.__call__())
-        a = self.__call__()
-        if self.id == '-':
-            return -a
-        return a
+
 
 
 class InfixSymbol(Symbol):
@@ -73,7 +70,12 @@ class InfixSymbol(Symbol):
 
 
 class PostfixInfixSymbol(InfixSymbol, PostfixSymbol):
-    pass
+    def nud(self):
+        self.lbp=100
+        a = self.__call__()
+        if self.id == '-':
+            return -a
+        return a
 
 
 class Lit(Symbol):
