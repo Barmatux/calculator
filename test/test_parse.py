@@ -95,3 +95,7 @@ class TestParse(TestCase):
     def test_parse_common3(self):
         res = parse(inpt='3+2*2-3/3')
         self.assertEqual(res, 3+2*2-3/3)
+
+    def test_parse_priority_power(self):
+        res = parse(inpt='-2^2')
+        self.assertEqual(res, -2^2)
