@@ -22,18 +22,19 @@ def tokenize(expression: str):
 def parse(inpt: str):
     Symbol.all_tokens = tokenize(inpt)
     Symbol.current_token = next(Symbol.all_tokens)
-    return Symbol.current_token()
+    return Symbol.current_token.count()
 
-
-def main():
+# def read_consol():
     # parser = argparse.ArgumentParser()
     # parser.add_argument('EXPRESSION', nargs='+', help="expression string to evaluate")
     # name = 'EXPRESSION'
     # args = parser.parse_args()
     # inpt_lst_str = vars(args).get(name)
     # fr = ' '.join(inpt_lst_str)
-    # print(parse('cos(-2+3*(-1))'))
-    print(parse('2-2*2'))
+    # return (fr)
+
+def main():
+    print(parse('cos(-2)+1'))
 
 
 if __name__ == "__main__":

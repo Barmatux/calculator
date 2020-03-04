@@ -1,4 +1,3 @@
-
 class CalcError(Exception):
 
     def __init__(self, mes='Error'):
