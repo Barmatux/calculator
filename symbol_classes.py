@@ -55,6 +55,8 @@ class Symbol:
 
 class PostfixSymbol(Symbol):
     def nud(self):
+        if self.value in operator_table:
+            return operator_table[self.value](self.expression(self.lbp))
         if self.value in math_const:
             return getattr(math, self.value)
         if self.id == 'func':
