@@ -18,7 +18,7 @@ class TestParse(TestCase):
 
     def test_parse_unary_sub(self):
         res = parse(inpt='-2--+2')
-        self.assertEqual(res, 0)
+        self.assertEqual(res, -2--+2)
 
     def test_parse_priority_mul(self):
         res = parse(inpt='2+2*3')
@@ -99,3 +99,11 @@ class TestParse(TestCase):
     def test_parse_priority_power(self):
         res = parse(inpt='-2^2')
         self.assertEqual(res, -2^2)
+
+    def test_parse_priority_power1(self):
+        res = parse(inpt='-2-(-2*2)')
+        self.assertEqual(res, -2-(-2*2))
+
+    def test_parse_comm(self):
+        res = parse(inpt='-2+--3')
+        self.assertEqual(res, (-2+--3))

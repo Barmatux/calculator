@@ -6,9 +6,9 @@ def tokenize(expression: str):
     """Tokenize our input string and make token one  of the given type"""
     for float_number, integer, function, operator in token_pattern.findall(expression):
         if float_number:
-            yield Lit("lit", float(float_number), symbol_table['lit'].lbp)
+            yield Lit("lit", float(float_number))
         if integer:
-            yield Lit("lit", int(integer), symbol_table['lit'].lbp)
+            yield Lit("lit", int(integer))
         if function:
             yield PostfixSymbol("func", function, 200)
         if operator:
@@ -20,9 +20,9 @@ def tokenize(expression: str):
 
 
 def parse(inpt: str):
-    Symbol.gen = tokenize(inpt)
-    Symbol.token = next(Symbol.gen)
-    return Symbol.expression()
+    Symbol.all_tokens = tokenize(inpt)
+    Symbol.current_token = next(Symbol.all_tokens)
+    return Symbol.current_token()
 
 
 def main():
@@ -33,7 +33,7 @@ def main():
     # inpt_lst_str = vars(args).get(name)
     # fr = ' '.join(inpt_lst_str)
     # print(parse('cos(-2+3*(-1))'))
-    print(parse('cos(-2)'))
+    print(parse('2-2*2'))
 
 
 if __name__ == "__main__":
