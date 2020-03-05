@@ -71,8 +71,9 @@ class InfixSymbol(Symbol):
 
 class PostfixInfixSymbol(InfixSymbol, PostfixSymbol):
     def nud(self):
-        self.lbp=100
+        self.token_power=100
         a = self.__call__()
+        self.token_power=10
         if self.id == '-':
             return -a
         return a
