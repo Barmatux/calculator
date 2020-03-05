@@ -1,7 +1,7 @@
 from unittest import TestCase
 from calculator.pycalc import parse
 from math import cos, log10, pi, e, sin
-from symbol_classes import *
+from calculator.symbol_classes import *
 
 class TestParse(TestCase):
     def setUp(self) -> None:
@@ -27,25 +27,29 @@ class TestParse(TestCase):
             "func": PostfixSymbol('func', 0, 200)
         }
 
+    def TearDown(self):
+        exit()
+
+
     def test_parse_unary_brackets(self):
         res = parse(inpt='6-(-13)')
-        self.assertEqual(res, 19)
+        self.assertEqual(res, 6-(-13))
 
     def test_parse_unary_multi_opeators(self):
         res = parse(inpt='--+2')
-        self.assertEqual(res, 2)
+        self.assertEqual(res, --+2)
 
     def test_parse_unary_multi_opeators_neg(self):
         res = parse(inpt='--+-2')
-        self.assertEqual(res, -2)
+        self.assertEqual(res, --+-2)
 
     def test_parse_unary_sub(self):
         res = parse(inpt='-2--+2')
-        self.assertEqual(res, 0)
+        self.assertEqual(res, -2--+2)
 
     def test_parse_priority_mul(self):
         res = parse(inpt='2+2*3')
-        self.assertEqual(res, 8)
+        self.assertEqual(res, 2+2*3)
 
     def test_parse_priority_mul_neg(self):
         res = parse(inpt='2-2*3')
@@ -61,7 +65,7 @@ class TestParse(TestCase):
 
     def test_parse_priority_all(self):
         res = parse(inpt='100/2^2*2')
-        self.assertEqual(res, 50)
+        self.assertEqual(res, 100/2**2*2)
 
     def test_parse_priority_multi_pow(self):
         res = parse(inpt='2^2^3')
@@ -69,7 +73,7 @@ class TestParse(TestCase):
 
     def test_parse_priority_assot(self):
         res = parse(inpt='100/4/3')
-        self.assertEqual(res, 25/3)
+        self.assertEqual(res, 100/4/3)
 
     def test_comparison_operators(self):
         res = parse(inpt='3>2')

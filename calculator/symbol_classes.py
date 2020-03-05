@@ -5,7 +5,7 @@ from operator import *
 from calculator.error_classes import CalcError
 
 operator_table = {'+': add, '-': sub, '*': mul, '/': truediv, '%': mod, '//': floordiv, '^': pow, '<': lt, '<=': le,
-                  '==': eq, '>': gt, '>=': ge, '!=': ne, 'abs': abs, 'round': round
+                  '==': eq, '>': gt, '>=': ge, '!=': ne, 'abs': abs, 'round': round,
                   }
 math_const = ['pi', 'e', 'tau', 'inf', 'nan']
 
@@ -24,7 +24,7 @@ class Symbol:
     def nud(self):
         raise SyntaxError("Syntax Error {}".format(self))
 
-    def led(self):
+    def led(self, symbol):
         raise SyntaxError("Syntax Error {}".format(self))
 
     def __repr__(self):
@@ -34,7 +34,10 @@ class Symbol:
     def count(self):
         """ Main function that count result of expression"""
         previous_token = Symbol.current_token
-        Symbol.current_token = next(Symbol.all_tokens)
+        try:
+            Symbol.current_token = next(Symbol.all_tokens)
+        except StopIteration as e:
+            raise CalcError('Error: wrong expression')
         left = previous_token.nud()
         while self.token_power < Symbol.current_token.token_power:
             previous_token = Symbol.current_token
@@ -49,7 +52,7 @@ class Symbol:
             return left.value
 
 
-class PostfixSymbol(Symbol):
+class PrefixSymbol(Symbol):
     def nud(self):
         if self.value in operator_table:
             counted_value = operator_table[self.value](self.count())
@@ -70,14 +73,13 @@ class PostfixSymbol(Symbol):
                 return counted_val
 
 
-
 class InfixSymbol(Symbol):
     def led(self, symbol):
         a = self.count()
         return operator_table[self.id](symbol, a)
 
 
-class PostfixInfixSymbol(InfixSymbol, PostfixSymbol):
+class PrefixInfixSymbol(InfixSymbol, PrefixSymbol):
     def nud(self):
         self.token_power = 100
         a = self.count()
@@ -93,17 +95,17 @@ class PostfixInfixSymbol(InfixSymbol, PostfixSymbol):
 
 
 class Lit(Symbol):
+    """ Literal class which ovveride method nud, return itself value"""
     def nud(self):
         return self.value
 
 
 class OpenBracket(Symbol):
     def nud(self):
-        """ rule for bracket"""
+        """ Special class for open bracket, begin new calculation with high priority"""
         self.token_power = 0
         expr = self.count()
         self.check_trailing_bracket(")")
-
         return expr
 
     def check_trailing_bracket(self, oper_id=None):

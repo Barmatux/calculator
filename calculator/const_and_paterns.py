@@ -1,11 +1,12 @@
 import re
 
-from calculator.symbol_classes import InfixSymbol, PostfixSymbol, OpenBracket, Lit, PostfixInfixSymbol
+from calculator.symbol_classes import InfixSymbol, PrefixSymbol, OpenBracket, Lit, PrefixInfixSymbol
 
 token_pattern = re.compile("(?:(\d*\.\d*)|(\d+)|(\w+)|(\<\=|\=\=|\>\=|\!\=|.))")
+
 symbol_table = {
-    "+": PostfixInfixSymbol("+", 0, 10),
-    "-": PostfixInfixSymbol("-", 0, 10),
+    "+": PrefixInfixSymbol("+", 0, 10),
+    "-": PrefixInfixSymbol("-", 0, 10),
     "*": InfixSymbol("*", 0, 20),
     "/": InfixSymbol("/", 0, 20),
     "//": InfixSymbol("//", 0, 2),
@@ -22,5 +23,5 @@ symbol_table = {
     ",": Lit(",", 0),
     ")": Lit(")", 0),
     "(": OpenBracket("(", 0, 150),
-    "func": PostfixSymbol('func', 0, 200)
+    "func": PrefixSymbol('func', 0, 200)
 }

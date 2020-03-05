@@ -1,7 +1,7 @@
 import argparse
-
+from calculator.error_classes import CalcError
 from calculator.const_and_paterns import token_pattern, symbol_table
-from calculator.symbol_classes import Lit, PostfixSymbol, Symbol
+from calculator.symbol_classes import Lit, PrefixSymbol, Symbol
 
 
 def tokenize(expression: str):
@@ -12,11 +12,11 @@ def tokenize(expression: str):
         if integer:
             yield Lit("lit", int(integer))
         if function:
-            yield PostfixSymbol("func", function, 200)
+            yield PrefixSymbol("func", function, 200)
         if operator:
             op = symbol_table.get(operator)
             if not op:
-                raise SyntaxError("Error: this operation is not supported")
+                raise CalcError("Error: this operation is not supported")
             yield op
     yield symbol_table['end']
 
@@ -25,6 +25,7 @@ def parse(inpt: str):
     Symbol.all_tokens = tokenize(inpt)
     Symbol.current_token = next(Symbol.all_tokens)
     return Symbol.current_token.count()
+
 
 def read_consol():
     parser = argparse.ArgumentParser('Comand-line calculator')
@@ -35,13 +36,15 @@ def read_consol():
     fr = ' '.join(inpt_lst_str)
     return (fr)
 
+
 def print_output_to_console():
-    print(parse('1&2'))
+    print(parse('a'))
+
 
 def main():
     try:
         print_output_to_console()
-    except SyntaxError as e:
+    except CalcError as e:
         print(e)
 
 
