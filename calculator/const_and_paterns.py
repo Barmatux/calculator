@@ -1,6 +1,6 @@
 import re
 
-from symbol_classes import InfixSymbol, PostfixSymbol, OpenBracket, Lit, PostfixInfixSymbol
+from calculator.symbol_classes import InfixSymbol, PostfixSymbol, OpenBracket, Lit, PostfixInfixSymbol
 
 token_pattern = re.compile("(?:(\d*\.\d*)|(\d+)|(\w+)|(\<\=|\=\=|\>\=|\!\=|.))")
 symbol_table = {
