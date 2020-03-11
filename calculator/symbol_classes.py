@@ -13,11 +13,13 @@ math_const = ['pi', 'e', 'tau', 'inf', 'nan']
 class Symbol:
     current_token = None
     all_tokens = None
+    tk_power = 0
 
-    def __init__(self, id, value, token_power=0):
+    def __init__(self, id, value, token_power=0, counter=0):
         self.id = id
         self.value = value
         self.token_power = token_power
+        self.counter = counter
 
     """Base class for symbols in math expression"""
 
@@ -28,8 +30,7 @@ class Symbol:
         raise SyntaxError("Syntax Error {}".format(self))
 
     def __repr__(self):
-        if self.id == "func" or self.id == "lit":
-            return "(%s %s)" % (self.id, self.value)
+        return "(%s %s)" % (self.id, self.value)
 
     def count(self):
         """ Main function that count result of expression"""
@@ -39,9 +40,11 @@ class Symbol:
         except StopIteration as e:
             raise CalcError('Error: wrong expression')
         left = previous_token.nud()
-        while self.token_power < Symbol.current_token.token_power:
+        Symbol.tk_power = Symbol.count_token_power(self)
+        while self.token_power < Symbol.tk_power:
             previous_token = Symbol.current_token
             Symbol.current_token = next(Symbol.all_tokens)
+            Symbol.tk_power = Symbol.count_token_power(self)
             if isinstance(left, Number) or left is None:
                 left = previous_token.led(left)
             else:
@@ -50,6 +53,12 @@ class Symbol:
             return left
         else:
             return left.value
+
+    def count_token_power(self):
+        if self.current_token.id != '^':
+            return self.current_token.token_power
+        else:
+            return self.current_token.token_power + 1
 
 
 class PrefixSymbol(Symbol):

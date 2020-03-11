@@ -4,32 +4,6 @@ from math import cos, log10, pi, e, sin
 from calculator.symbol_classes import *
 
 class TestParse(TestCase):
-    def setUp(self) -> None:
-        symbol_table = {
-            "+": PostfixInfixSymbol("+", 0, 10),
-            "-": PostfixInfixSymbol("-", 0, 10),
-            "*": InfixSymbol("*", 0, 20),
-            "/": InfixSymbol("/", 0, 20),
-            "//": InfixSymbol("//", 0, 2),
-            "%": InfixSymbol("%", 0, 20),
-            "^": InfixSymbol("^", 0, 30),
-            "<": InfixSymbol("<", 0, 5),
-            "<=": InfixSymbol("<=", 0, 5),
-            ">": InfixSymbol(">", 0, 5),
-            ">=": InfixSymbol(">=", 0, 5),
-            "!=": InfixSymbol("!=", 0, 5),
-            "==": InfixSymbol("==", 0, 5),
-            "lit": Lit("lit", 0),
-            "end": Lit("end", 0),
-            ",": Lit(",", 0),
-            ")": Lit(")", 0),
-            "(": OpenBracket("(", 0, 150),
-            "func": PostfixSymbol('func', 0, 200)
-        }
-
-    def TearDown(self):
-        exit()
-
 
     def test_parse_unary_brackets(self):
         res = parse(inpt='6-(-13)')
@@ -138,3 +112,7 @@ class TestParse(TestCase):
     def test_parse_comm(self):
         res = parse(inpt='cos(-1)+1')
         self.assertEqual(res, cos(-1)+1)
+
+    def test_parse_multi_power(self):
+        res = parse(inpt='(2.0^(2.0^0.0))^(2)')
+        self.assertEqual(res, (2.0**(2.0**0.0))**(2))

@@ -2,6 +2,7 @@ import argparse
 from calculator.error_classes import CalcError
 from calculator.const_and_paterns import token_pattern, symbol_table
 from calculator.symbol_classes import Lit, PrefixSymbol, Symbol
+import copy
 
 
 def tokenize(expression: str):
@@ -17,6 +18,8 @@ def tokenize(expression: str):
             op = symbol_table.get(operator)
             if not op:
                 raise CalcError("Error: this operation is not supported")
+            if op.counter == '^':
+                op.counter += 1
             yield op
     yield symbol_table['end']
 
@@ -38,7 +41,7 @@ def read_consol():
 
 
 def print_output_to_console():
-    print(parse('a'))
+    print(parse('1 + 4 5 6 7'))
 
 
 def main():

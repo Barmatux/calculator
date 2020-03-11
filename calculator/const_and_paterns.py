@@ -2,6 +2,7 @@ import re
 
 from calculator.symbol_classes import InfixSymbol, PrefixSymbol, OpenBracket, Lit, PrefixInfixSymbol
 
+
 token_pattern = re.compile("(?:(\d*\.\d*)|(\d+)|(\w+)|(\<\=|\=\=|\>\=|\!\=|.))")
 
 symbol_table = {
